@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ITask } from '../model';
+import { Bridge } from '../enum';
 import { Task } from './';
 import { theme } from '../theme/main';
 
@@ -8,6 +9,7 @@ const mockTasks: ITask[] = [
     {
         id: "jer89hjvnv",
         title: 'Get this app going',
+        bridge: Bridge.BECAUSE,
         reason: 'it takes one step at a time to make something big',
         isComplete: false,
         creationDate: new Date(),
@@ -17,7 +19,8 @@ const mockTasks: ITask[] = [
     {
         id: 'oisdn9834ji',
         title: 'Do an initial commit',
-        reason: 'I want to have something official on record',
+        bridge: Bridge.SOTHAT,
+        reason: 'I wont lose any work if my desktop dies',
         isComplete: false,
         creationDate: new Date(),
         updateDate: new Date(),
@@ -26,8 +29,9 @@ const mockTasks: ITask[] = [
     {
         id: '0j309fj0239if',
         title: 'Think of names',
+        bridge: Bridge.BECAUSE,
         reason: 'a cool name gets the people going',
-        isComplete: true,
+        isComplete: false,
         creationDate: new Date(),
         updateDate: new Date(),
         completionDate: new Date()

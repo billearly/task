@@ -39,10 +39,9 @@ const TaskReason = styled.p`
     padding-top: 0.8rem;
 `;
 
-const ReasonEmphasis = styled.span`
+const TaskBridge = styled.span`
     background-color: ${theme.colorBlueLight};
     border-radius: ${theme.borderRadius};
-    margin-right: 0.3rem;
     margin-left: -0.4rem;
     padding: 0 0.4rem;
 `;
@@ -76,12 +75,21 @@ export class Task extends Component<IProps, IState> {
         };
 
         this.toggleCompletion = this.toggleCompletion.bind(this);
+        this.textWithLeadingWhiteSpace = this.textWithLeadingWhiteSpace.bind(this);
     }
 
     toggleCompletion(): void {
         this.setState({
             isComplete: !this.state.isComplete
         });
+    }
+
+    textWithLeadingWhiteSpace(text: string): string {
+        if (text.length > 1 && text.charAt(0) !== ' ') {
+            return ` ${text}`;
+        } else {
+            return text;
+        }
     }
 
     render() {
@@ -92,13 +100,19 @@ export class Task extends Component<IProps, IState> {
                 onClick={this.toggleCompletion}
             >
                 <TaskText>
-                    <TaskTitle>{this.props.task.title}</TaskTitle>
+                    <TaskTitle>
+                        {this.props.task.title}
+                    </TaskTitle>
+
                     <TaskReason>
-                        <ReasonEmphasis>Because</ReasonEmphasis>
-                        {this.props.task.reason}
+                        <TaskBridge>
+                            {this.props.task.bridge}
+                        </TaskBridge>
+
+                        {this.textWithLeadingWhiteSpace(this.props.task.reason)}
                     </TaskReason>
                 </TaskText>
-    
+
                 <Checkbox 
                     isChecked={this.state.isComplete}
                 />
