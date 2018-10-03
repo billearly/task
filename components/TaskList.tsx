@@ -8,6 +8,7 @@ const mockTasks: ITask[] = [
     {
         id: "jer89hjvnv",
         title: 'Get this app going',
+        reason: 'it takes one step at a time to make something big',
         isComplete: false,
         creationDate: new Date(),
         updateDate: new Date(),
@@ -16,6 +17,7 @@ const mockTasks: ITask[] = [
     {
         id: 'oisdn9834ji',
         title: 'Do an initial commit',
+        reason: 'I want to have something official on record',
         isComplete: false,
         creationDate: new Date(),
         updateDate: new Date(),
@@ -24,6 +26,7 @@ const mockTasks: ITask[] = [
     {
         id: '0j309fj0239if',
         title: 'Think of names',
+        reason: 'a cool name gets the people going',
         isComplete: true,
         creationDate: new Date(),
         updateDate: new Date(),

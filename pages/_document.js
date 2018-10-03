@@ -9,6 +9,7 @@ injectGlobal`
 
     body {
         background-color: ${theme.colorGrayLight};
+        color: ${theme.colorGrayDark}
         font-family: 'Roboto', sans-serif;
         margin: 0;
     }

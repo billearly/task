@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from './';
 import { ITask } from '../model';
@@ -8,13 +8,43 @@ interface IProps {
     task: ITask;
 }
 
+interface IState {
+    isComplete: boolean;
+}
+
 interface IWrapperProps {
     backgroundColor?: string;
     hoverColor?: string;
 }
 
+const TaskText = styled.div`
+    max-width: 90%;
+`;
+
 const TaskTitle = styled.p`
     margin: 0;
+
+    &:after {
+        border-bottom: 1px dashed ${theme.colorGrayDark};
+        content: '';
+        display: block;
+        padding-bottom: 0.6rem;
+        width: 0.8rem;
+    }
+`;
+
+const TaskReason = styled.p`
+    font-size: 1.2em;
+    margin: 0;
+    padding-top: 0.8rem;
+`;
+
+const ReasonEmphasis = styled.span`
+    background-color: ${theme.colorBlueLight};
+    border-radius: ${theme.borderRadius};
+    margin-right: 0.3rem;
+    margin-left: -0.4rem;
+    padding: 0 0.4rem;
 `;
 
 const TaskWrapper = styled.div`
@@ -28,25 +58,51 @@ const TaskWrapper = styled.div`
     margin-right: auto;
     max-width: 30rem;
     padding: 1rem;
+    transition: background-color ${theme.transitionQuick};
     width: 100%;
 
     &:hover {
         background-color: ${(p: IWrapperProps) => p.hoverColor || p.backgroundColor || 'white'};
         cursor: pointer;
     }
-
-    transition: background-color ${theme.transitionQuick};
 `;
 
-export const Task: React.SFC<IProps> = ({ task }) => {
-    return (
-        <TaskWrapper
-            backgroundColor={theme.colorGrayLight}
-            hoverColor={theme.colorBlueLight}
-        >
-            <TaskTitle>{task.title}</TaskTitle>
+export class Task extends Component<IProps, IState> {
+    constructor(props) {
+        super(props);
 
-            <Checkbox />
-        </TaskWrapper>
-    );
+        this.state = {
+            isComplete: this.props.task.isComplete
+        };
+
+        this.toggleCompletion = this.toggleCompletion.bind(this);
+    }
+
+    toggleCompletion(): void {
+        this.setState({
+            isComplete: !this.state.isComplete
+        });
+    }
+
+    render() {
+        return (
+            <TaskWrapper
+                backgroundColor={this.state.isComplete ? theme.colorBlue : theme.colorGrayLight}
+                hoverColor={this.state.isComplete ? theme.colorBlue : 'white'}
+                onClick={this.toggleCompletion}
+            >
+                <TaskText>
+                    <TaskTitle>{this.props.task.title}</TaskTitle>
+                    <TaskReason>
+                        <ReasonEmphasis>Because</ReasonEmphasis>
+                        {this.props.task.reason}
+                    </TaskReason>
+                </TaskText>
+    
+                <Checkbox 
+                    isChecked={this.state.isComplete}
+                />
+            </TaskWrapper>
+        );
+    }
 }
