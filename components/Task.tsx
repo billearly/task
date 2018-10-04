@@ -5,7 +5,7 @@ import { ITask } from '../model';
 import { theme } from '../theme/main';
 
 interface IProps {
-    task: ITask;
+    taskInfo: ITask;
 }
 
 interface IState {
@@ -71,7 +71,7 @@ export class Task extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            isComplete: this.props.task.isComplete
+            isComplete: this.props.taskInfo.isComplete
         };
 
         this.toggleCompletion = this.toggleCompletion.bind(this);
@@ -100,16 +100,16 @@ export class Task extends Component<IProps, IState> {
                 onClick={this.toggleCompletion}
             >
                 <TaskText>
-                    <TaskTitle>
-                        {this.props.task.title}
+                    <TaskTitle data-target='task-title'>
+                        {this.props.taskInfo.title}
                     </TaskTitle>
 
-                    <TaskReason>
+                    <TaskReason data-target='task-reason'>
                         <TaskBridge>
-                            {this.props.task.bridge}
+                            {this.props.taskInfo.bridge}
                         </TaskBridge>
 
-                        {this.textWithLeadingWhiteSpace(this.props.task.reason)}
+                        {this.textWithLeadingWhiteSpace(this.props.taskInfo.reason)}
                     </TaskReason>
                 </TaskText>
 

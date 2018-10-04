@@ -57,7 +57,7 @@ export const TaskList: React.SFC = () => {
         return tasks.map((task, i) =>
             <Task
                 key={i}
-                task={task}
+                taskInfo={task}
             />
         );
     }
