@@ -11,6 +11,9 @@
   },
   "author": "Bill Early",
   "license": "ISC",
+  "engines": {
+    "node": "8.11.2"
+  },
   "dependencies": {
     "@zeit/next-typescript": "1.1.1",
     "mobx": "5.5.0",
