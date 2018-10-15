@@ -35,6 +35,16 @@ const mockTasks: ITask[] = [
         creationDate: new Date(),
         updateDate: new Date(),
         completionDate: new Date()
+    },
+    {
+        id: 'lasjcjh893j4nf',
+        title: 'Sign up for True Task',
+        bridge: Bridge.SOTHAT,
+        reason: 'I can stay motivated and complete my tasks',
+        isComplete: false,
+        creationDate: new Date(),
+        updateDate: new Date(),
+        completionDate: new Date()
     }
 ];
 
