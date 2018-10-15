@@ -4,7 +4,7 @@ import { Title, TaskList } from '../components';
 const Index: React.SFC = () => {
     return (
         <>
-            <Title>Stack Task</Title>
+            <Title>True Task</Title>
             <TaskList />
         </>
     );

@@ -19,7 +19,7 @@ export default class MyApp extends App {
         return (
             <Container>
                 <Head>
-                    <title>Stack Task</title>
+                    <title>True Task</title>
                 </Head>
                 <Component {...pageProps} />
             </Container>
