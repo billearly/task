@@ -1,3 +1,8 @@
 language: node_js
 node_js:
-  - '8.11.2'
+  - 8.11.2
+deploy:
+  provider: heroku
+  app: true-task
+  api_key:
+    secure: BBg3dWefR3/Y5+uVlYxluZd43WgAlhMv17Ono/vZ3kiD+tSrYmB5F211QLK2u9spaSfnnC3DMoBHPhburHOYVhDNNP/PFVNv67e+0igMKhTkgTa+nQEMOB+xLuMcQd3fmzrT2WZbecmELbYt+MWo3Je5eVl50S9nLC+OZlclvuKjz8eRdJp3K53ZiGZRWrgfaRnoP+ziD3r/G/VwnM9nQLu8SWqKft3yk7s72uMLYows+whurn0DNSMPffqCJZ/FFl0/S1gwZzWmD1wTRTQWUNN8huCiy3Mb3wwhsZKNmU680MVVbzMVjQ6ihAJENdB4rqqB4sCgJOa9whDQWq+7oMwWtxQE7Db64ySZ+rAqJE9jD1U83Nj1Z6svwlELb57NxbjSb7mcaDot78HHoPpPNkjkikM+umvzMCeteHzH+j0dsp5XrI0Gjp7e7vPYWh3VRjYdjMtT9A1OIemNCswbJuQIAvzQGDq/wYp2o7KuL7VYe+knByfNy7JLM7QsF27LDrdr0k1zKgEDi1tQQJ54sm9O5cqTX6UYK2Q4oLzs3jiU9GALnxk6T54f0a6Po6yoj2ga8XTyG+7+AeZHUgLZ+KJqnHOSTxUDUlWTYTL2aVMh/RSvO0Dw4w0TKrdORJIQYULdKUB1v0eXAZVxXUv+efVlXyTPbXN9Hk0skpd95Vs=
