@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ITask } from '../model';
-import { Bridge } from '../enum';
+import { ITask } from '../../model';
+import { Bridge } from '../../enum';
 import { Task } from './';
-import { theme } from '../theme/main';
+import { theme } from '../../theme/main';
 
 const mockTasks: ITask[] = [
     {

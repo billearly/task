@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from './';
-import { ITask } from '../model';
-import { theme } from '../theme/main';
+import { ITask } from '../../model';
+import { theme } from '../../theme/main';
 
 interface IProps {
     taskInfo: ITask;

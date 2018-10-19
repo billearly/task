@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../theme/main';
+import { theme } from '../../theme/main';
 
 interface IProps {
     isChecked: boolean;

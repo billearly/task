@@ -1,5 +1,5 @@
-import { ITask } from '../../../model';
-import { Bridge } from '../../../enum';
+import { ITask } from '../../../../model';
+import { Bridge } from '../../../../enum';
 
 export const TASK_STANDARD: ITask = {
     id: 'abc123',
