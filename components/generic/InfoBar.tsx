@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../../theme/main';
 
 const InfoBarContainer = styled.div`
     background-color: rgba(255, 255, 255, 0.2);
@@ -14,8 +15,8 @@ const StyledInfoBar = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 60rem;
-    padding: 1.2rem;
+    max-width: ${theme.maxWidth};
+    padding: ${theme.padding};
 `;
 
 export const InfoBar: React.SFC = ({ children }) => {

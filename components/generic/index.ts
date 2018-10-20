@@ -1,7 +1,9 @@
 export { ContentBlock } from './ContentBlock';
+export { ContentBlockDuo } from './ContentBlockDuo';
 export { CursiveTitle } from './CursiveTitle';
 export { Emphasis } from './Emphasis';
 export { HeroBanner } from './HeroBanner';
+export { IconCard } from './IconCard';
 export { InfoBar } from './InfoBar';
 export { InfoBarLink } from './InfoBarLink';
 export { Paragraph } from './Paragraph';

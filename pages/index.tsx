@@ -1,14 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 import { 
+    ContentBlock,
+    ContentBlockDuo,
     CursiveTitle,
     Emphasis,
     HeroBanner,
+    IconCard,
     InfoBar,
     InfoBarLink,
     Paragraph
 } from '../components/generic';
 import { theme } from '../theme/main';
 import Link from 'next/link';
+
+const StyledMain = styled.main`
+    margin: 0;
+`;
 
 const Index: React.SFC = () => {
     return (
@@ -33,10 +41,47 @@ const Index: React.SFC = () => {
                 </Paragraph>
             </HeroBanner>
 
-            <p>View tasks </p>
-            <Link href="/tasks">
-                <a>here</a>
-            </Link>
+            <StyledMain>
+                <ContentBlock>
+                    <h2>Here is some copy</h2>
+                    <p>Check out that background color alternating. Here is a whole bunch of copy so that I can test out the max width</p>
+                </ContentBlock>
+
+                <ContentBlockDuo>
+                    <div>
+                        <h2>Motivation</h2>
+                        <p>Here is a thing about why you should write down your motivation for each todo...</p>
+                    </div>
+
+                    <IconCard 
+                        icon={['fas', 'heart']}
+                        color="#ff7d7d"
+                        message="Here is the message. Its great"
+                    />
+                </ContentBlockDuo>
+
+                <ContentBlockDuo>
+                    <IconCard
+                        icon={['fas', 'stream']}
+                        color="#5bbdb5"
+                        message="Wow its so simple. Yowzers"
+                    />
+
+                    <div>
+                        <h2>Simple</h2>
+                        <p>Straight to business. Nothing to get in the way like buckets, subtasks, timers, or tags. No more forgetting where you put a certain to do, or guessing which task is the most important. Just a list.</p>
+                    </div>
+                </ContentBlockDuo>
+
+                <ContentBlock>
+                    <div>
+                        <p>View tasks </p>
+                        <Link href="/tasks">
+                            <a>here</a>
+                        </Link>
+                    </div>
+                </ContentBlock>
+            </StyledMain>
         </>
     );
 }

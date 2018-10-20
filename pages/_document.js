@@ -14,12 +14,12 @@ injectGlobal`
         margin: 0;
     }
 
-    p {
+    p, h2 {
         margin: 0;
     }
 
-    * + * {
-        margin-top: 1rem;
+    h2 {
+        padding-bottom: ${theme.padding};
     }
 `;
 

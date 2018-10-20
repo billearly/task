@@ -13,23 +13,34 @@ const ContentBlockWrapper = styled.div`
     }
 `;
 
-export const Content = styled.div`
-    margin: 0 auto;
-    max-width: ${theme.maxWidth};
-    padding: ${theme.padding};
-    text-align: center;
+const ContentSide = styled.div`
+    width: 50%;
 
-    & > p {
+    & > div {
         margin: 0 auto;
-        max-width: 50%;
     }
 `;
 
-export const ContentBlock: React.SFC = ({ children }) => {
+export const Content = styled.div`
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: ${theme.maxWidth};
+    padding: ${theme.padding};
+`;
+
+export const ContentBlockDuo: React.SFC = ({ children }) => {
     return (
         <ContentBlockWrapper>
             <Content>
-                {children}
+                <ContentSide>
+                    {children[0]}
+                </ContentSide>
+
+                <ContentSide>
+                    {children[1]}
+                </ContentSide>
             </Content>
         </ContentBlockWrapper>
     );
