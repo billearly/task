@@ -59,7 +59,7 @@ const TaskListWrapper = styled.div`
     margin-left: auto;
     margin-right: auto;
     max-width: 30rem;
-    padding: 1rem;
+    padding: ${theme.padding};
 `;
 
 export const TaskList: React.SFC = () => {

@@ -54,23 +54,23 @@ const Index: React.SFC = () => {
                     </div>
 
                     <IconCard 
-                        icon={['fas', 'heart']}
-                        color="#ff7d7d"
-                        message="Here is the message. Its great"
+                        icon={['fas', 'lightbulb']}
+                        color={theme.colorGreen}
+                        message="Write down the reason"
                     />
                 </ContentBlockDuo>
 
                 <ContentBlockDuo>
-                    <IconCard
-                        icon={['fas', 'stream']}
-                        color="#5bbdb5"
-                        message="Wow its so simple. Yowzers"
-                    />
-
                     <div>
                         <h2>Simple</h2>
-                        <p>Straight to business. Nothing to get in the way like buckets, subtasks, timers, or tags. No more forgetting where you put a certain to do, or guessing which task is the most important. Just a list.</p>
+                        <p>Straight to business. Nothing to get in the way like buckets, subtasks, timers, or tags. No more forgetting where you put a certain to do, or guessing which task is the most important.</p>
                     </div>
+
+                    <IconCard
+                        icon={['fas', 'stream']}
+                        color={theme.colorGreen}
+                        message="Just a list"
+                    />
                 </ContentBlockDuo>
 
                 <ContentBlock>

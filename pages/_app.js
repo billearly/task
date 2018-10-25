@@ -4,9 +4,9 @@ import React from 'react';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faStream } from '@fortawesome/free-solid-svg-icons';
+import { faStream, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faHeart, faStream);
+library.add(faStream, faLightbulb);
 
 export default class MyApp extends App {
     static async getInitialProps ({ Component, router, ctx }) {

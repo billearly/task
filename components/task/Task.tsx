@@ -55,10 +55,15 @@ const TaskWrapper = styled.div`
     justify-content: space-between;
     margin-left: auto;
     margin-right: auto;
+    margin-top: ${theme.padding};
     max-width: 30rem;
-    padding: 1rem;
+    padding: ${theme.padding};
     transition: background-color ${theme.transitionQuick};
     width: 100%;
+
+    &:first-child {
+        margin-top: 0;
+    }
 
     &:hover {
         background-color: ${(p: IWrapperProps) => p.hoverColor || p.backgroundColor || 'white'};
