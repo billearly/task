@@ -24,12 +24,12 @@ injectGlobal`
 `;
 
 export default class MyDocument extends Document {
-    static async getInitialProps(ctx) {
+    static async getInitialProps({ renderPage }) {
         const sheet = new ServerStyleSheet();
+        const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
         const styleElement = sheet.getStyleElement();
-        const initialProps = await Document.getInitialProps(ctx);
 
-        return { ...initialProps, styleElement };
+        return { ...page, styleElement };
     }
 
     render() {
