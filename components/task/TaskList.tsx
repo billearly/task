@@ -1,52 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
 import { ITask } from '../../model';
 import { Bridge } from '../../enum';
 import { Task } from './';
 import { theme } from '../../theme/main';
 
-const mockTasks: ITask[] = [
-    {
-        id: "jer89hjvnv",
-        title: 'Get this app going',
-        bridge: Bridge.BECAUSE,
-        reason: 'it takes one step at a time to make something big',
-        isComplete: false,
-        creationDate: new Date(),
-        updateDate: new Date(),
-        completionDate: new Date()
-    },
-    {
-        id: 'oisdn9834ji',
-        title: 'Do an initial commit',
-        bridge: Bridge.SOTHAT,
-        reason: 'I wont lose any work if my desktop dies',
-        isComplete: false,
-        creationDate: new Date(),
-        updateDate: new Date(),
-        completionDate: new Date()
-    },
-    {
-        id: '0j309fj0239if',
-        title: 'Think of names',
-        bridge: Bridge.BECAUSE,
-        reason: 'a cool name gets the people going',
-        isComplete: false,
-        creationDate: new Date(),
-        updateDate: new Date(),
-        completionDate: new Date()
-    },
-    {
-        id: 'lasjcjh893j4nf',
-        title: 'Sign up for True Task',
-        bridge: Bridge.SOTHAT,
-        reason: 'I can stay motivated and complete my tasks',
-        isComplete: false,
-        creationDate: new Date(),
-        updateDate: new Date(),
-        completionDate: new Date()
+export const tasksQuery = gql`
+    query tasks {
+        tasks {
+            _id
+            title
+            bridge
+            reason
+            isComplete
+            creationDate
+            updateDate
+            completionDate
+        }
     }
-];
+`;
 
 interface IWrapperProps {
     backgroundColor?: string;
@@ -64,17 +38,42 @@ const TaskListWrapper = styled.div`
 
 export const TaskList: React.SFC = () => {
     const generateTasks = (tasks: ITask[]): JSX.Element[] => {
-        return tasks.map((task, i) =>
-            <Task
-                key={i}
-                taskInfo={task}
-            />
-        );
+        return tasks.map((task, i) => {
+            return (
+                <Task
+                    key={i}
+                    taskInfo={task}
+                />
+            );
+        });
+    }
+
+    const convertDTOtoTask = (task: any): ITask => {
+        task.bridge = Bridge[task.bridge];
+        task.creationDate = new Date(Number(task.creationDate));
+        task.updateDate = new Date(Number(task.updateDate));
+        task.completionDate = task.completionDate
+            ? new Date(Number(task.completionDate))
+            : null;
+
+        return task;
     }
 
     return (
         <TaskListWrapper backgroundColor='white'>
-            {generateTasks(mockTasks)}
+            <Query query={tasksQuery}>
+                {({ loading, error, data: { tasks } }) => {
+                    if (error) {
+                        return <div>Error</div>;
+                    }
+
+                    if (loading) {
+                        return <div>Loading...</div>
+                    }
+
+                    return generateTasks(tasks.map(convertDTOtoTask));
+                }}
+            </Query>
         </TaskListWrapper>
     );
 }
