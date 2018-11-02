@@ -1,71 +1,76 @@
 import React, { Component } from 'react';
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
+import { GET_TODOS, WRITE_TODO } from '../../gql';
 
 // So much cleanup
-// - these queries need to go in a central place as they are referenced a few places
-// - Task that comes back from the write needs to be converted to an ITask
-// - dont use refs, proper state management
 // - add styles
 
-const writeTodo = gql`
-    mutation writeTask($title: String, $bridge: String, $reason: String) {
-        writeTask(title: $title, bridge: $bridge, reason: $reason) {
-            _id
-            title
-            bridge
-            reason
-            isComplete
-            creationDate
-            updateDate
-            completionDate
-        }
-    }
-`;
+interface IState {
+    title: string;
+    bridge: string;
+    reason: string;
+}
 
-// These should be in a shared place since its a single schema
-// this was copied from the TaskList component
-const tasksQuery = gql`
-    query tasks {
-        tasks {
-            _id
-            title
-            bridge
-            reason
-            isComplete
-            creationDate
-            updateDate
-            completionDate
-        }
-    }
-`;
-
-export class TaskForm extends Component {
-    title;
-    bridge;
-    reason;
-
+export class TaskForm extends Component<{}, IState> {
     constructor(props) {
         super(props);
 
-        this.title = React.createRef();
-        this.bridge = React.createRef();
-        this.reason = React.createRef();
+        this.state = {
+            title: "",
+            bridge: "BECAUSE",
+            reason: ""
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    render () {
+    handleChange(e): void {
+        e.preventDefault();
+
+        switch(e.target.name) {
+            case 'title':
+                this.setState({ title: e.target.value});
+                break;
+
+            case 'bridge':
+                this.setState({ bridge: e.target.value});
+                break;
+
+            case 'reason':
+                this.setState({ reason: e.target.value});
+                break;
+        }
+    }
+
+    handleSubmit(e, mutationFn: MutationFn): void {
+        e.preventDefault();
+
+        mutationFn({ 
+            variables: { 
+                title: this.state.title,
+                bridge: this.state.bridge,
+                reason: this.state.reason
+            }
+        });
+
+        this.setState({
+            title: "",
+            reason: ""
+        });
+    }
+
+    render(): JSX.Element {
         return (
             <Mutation
-                mutation={writeTodo}
+                mutation={WRITE_TODO}
                 update={(cache, { data: { writeTask } }) => {
-                    // the task that comes back needs to be converted to an ITask
-
                     const { tasks } = cache.readQuery({ 
-                        query: tasksQuery
+                        query: GET_TODOS
                     });
 
                     cache.writeQuery({
-                        query: tasksQuery,
+                        query: GET_TODOS,
                         data: { tasks: tasks.concat([writeTask]) }
                     });
                 }}
@@ -73,31 +78,19 @@ export class TaskForm extends Component {
                 {(writeTask, { data }) => (
                     <div>
                         <form
-                            onSubmit={e => {
-                                e.preventDefault();
-
-                                // snag the values from form
-
-                                // this is where I need some state management (mobx)
-                                // the individual form controls update the store
-                                // and on submit the values are taken from the store
-
-                                writeTask({ 
-                                    variables: { 
-                                        title: this.title.current.value,
-                                        bridge: this.bridge.current.value,
-                                        reason: this.reason.current.value
-                                    }
-                                });
-                            }}
+                            onSubmit={e => { this.handleSubmit(e, writeTask) }}
                         >
                             <label>Title</label>
                             <input
-                                ref={this.title}
+                                name='title'
+                                value={this.state.title}
+                                onChange={this.handleChange}
                             />
 
                             <select
-                                ref={this.bridge}
+                                name='bridge'
+                                value={this.state.bridge}
+                                onChange={this.handleChange}
                             >
                                 <option value="BECAUSE">Because</option>
                                 <option value="SOTHAT">So that</option>
@@ -105,7 +98,9 @@ export class TaskForm extends Component {
 
                             <label>Reason</label>
                             <input
-                                ref={this.reason}
+                                name='reason'
+                                value={this.state.reason}
+                                onChange={this.handleChange}
                             />
 
                             <button type="submit">Write Task</button>

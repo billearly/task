@@ -1,26 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { ITask } from '../../model';
-import { Bridge } from '../../enum';
 import { Task, TaskListMessage } from './';
+import { GET_TODOS, convertDTOToTask } from '../../gql';
 import { theme } from '../../theme/main';
-
-export const tasksQuery = gql`
-    query tasks {
-        tasks {
-            _id
-            title
-            bridge
-            reason
-            isComplete
-            creationDate
-            updateDate
-            completionDate
-        }
-    }
-`;
 
 interface IWrapperProps {
     backgroundColor?: string;
@@ -48,20 +32,9 @@ export const TaskList: React.SFC = () => {
         });
     }
 
-    const convertDTOtoTask = (task: any): ITask => {
-        task.bridge = Bridge[task.bridge];
-        task.creationDate = new Date(Number(task.creationDate));
-        task.updateDate = new Date(Number(task.updateDate));
-        task.completionDate = task.completionDate
-            ? new Date(Number(task.completionDate))
-            : null;
-
-        return task;
-    }
-
     return (
         <TaskListWrapper backgroundColor='white'>
-            <Query query={tasksQuery}>
+            <Query query={GET_TODOS}>
                 {({ loading, error, data }) => {
                     if (loading) {
                         return (
@@ -87,7 +60,7 @@ export const TaskList: React.SFC = () => {
                         );
                     }
 
-                    return generateTasks(data.tasks.map(convertDTOtoTask));
+                    return generateTasks(data.tasks.map(convertDTOToTask));
                 }}
             </Query>
         </TaskListWrapper>
