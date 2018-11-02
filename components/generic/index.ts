@@ -3,6 +3,7 @@ export { ContentBlockDuo } from './ContentBlockDuo';
 export { CursiveTitle } from './CursiveTitle';
 export { Emphasis } from './Emphasis';
 export { HeroBanner } from './HeroBanner';
+export { Icon } from './Icon';
 export { IconCard } from './IconCard';
 export { InfoBar } from './InfoBar';
 export { InfoBarLink } from './InfoBarLink';

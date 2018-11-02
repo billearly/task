@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { ITask } from '../../model';
 import { Bridge } from '../../enum';
-import { Task } from './';
+import { Task, TaskListMessage } from './';
 import { theme } from '../../theme/main';
 
 export const tasksQuery = gql`
@@ -62,16 +62,32 @@ export const TaskList: React.SFC = () => {
     return (
         <TaskListWrapper backgroundColor='white'>
             <Query query={tasksQuery}>
-                {({ loading, error, data: { tasks } }) => {
-                    if (error) {
-                        return <div>Error</div>;
-                    }
-
+                {({ loading, error, data }) => {
                     if (loading) {
-                        return <div>Loading...</div>
+                        return (
+                            <TaskListMessage icon={['fas', 'circle-notch']} iconSpin={true}>
+                                Getting your tasks
+                            </TaskListMessage>
+                        );
                     }
 
-                    return generateTasks(tasks.map(convertDTOtoTask));
+                    if (error) {
+                        return (
+                            <TaskListMessage icon={['fas', 'search']}>
+                                Uh oh, there was a problem getting your tasks. Try again later
+                            </TaskListMessage>
+                        );
+                    }
+
+                    if (data.tasks.length < 1) {
+                        return (
+                            <TaskListMessage icon={['fas', 'pencil-alt']}>
+                                It looks like you don't have any tasks. Add one now
+                            </TaskListMessage>
+                        );
+                    }
+
+                    return generateTasks(data.tasks.map(convertDTOtoTask));
                 }}
             </Query>
         </TaskListWrapper>

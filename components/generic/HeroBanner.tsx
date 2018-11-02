@@ -12,7 +12,6 @@ export const HeroBanner = styled.div`
     }
 
     ${Paragraph} {
-        text-align: center;
         padding-bottom: 2rem;
     }
 `;

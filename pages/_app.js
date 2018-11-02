@@ -6,9 +6,15 @@ import { ApolloProvider } from 'react-apollo'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStream, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import {
+    faStream,
+    faLightbulb,
+    faCircleNotch,
+    faSearch,
+    faPencilAlt
+} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faStream, faLightbulb);
+library.add(faStream, faLightbulb, faCircleNotch, faSearch, faPencilAlt);
 
 class MyApp extends App {
     static async getInitialProps ({ Component, router, ctx }) {

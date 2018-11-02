@@ -1,28 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp, IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
+import { Icon } from './';
 import { theme } from '../../theme/main';
-
-// have the shadow be a lighter version of the main color
 
 interface IProps {
     icon: IconProp | [IconPrefix, IconName];
     color: string;
     message: string;
+    size: string;
 }
-
-interface IColorProps {
-    color: string;
-}
-
-const IconWrapper = styled.div`
-    color: ${(p: IColorProps) => p.color};
-    display: flex;
-    font-size: 2.4em;
-    justify-content: center;
-    padding-top: ${theme.padding};
-`;
 
 const IconCardMessage = styled.p`
     text-align: center;
@@ -41,12 +28,14 @@ const StyledIconCard = styled.div`
     width: 10rem;
 `;
 
-export const IconCard: React.SFC<IProps> = ({ icon, color, message }) => {
+export const IconCard: React.SFC<IProps> = ({ icon, color, message, size }) => {
     return (
         <StyledIconCard>
-            <IconWrapper color={color}>
-                <FontAwesomeIcon icon={icon} />
-            </IconWrapper>
+            <Icon 
+                icon={icon}
+                color={color}
+                size={size}
+            />
             
             <IconCardMessage>
                 {message}

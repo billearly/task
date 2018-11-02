@@ -13,6 +13,7 @@ import {
 } from '../components/generic';
 import { theme } from '../theme/main';
 import Link from 'next/link';
+import { FontAlignment } from '../enum';
 
 const StyledMain = styled.main`
     margin: 0;
@@ -36,7 +37,7 @@ const Index: React.SFC = () => {
 
                 <CursiveTitle color={theme.colorGrayLight}>True Task</CursiveTitle>
 
-                <Paragraph>
+                <Paragraph alignment={FontAlignment.CENTER}>
                     <Emphasis>What</Emphasis> you want to do, and <Emphasis>why</Emphasis> you want to do it
                 </Paragraph>
             </HeroBanner>
@@ -56,6 +57,7 @@ const Index: React.SFC = () => {
                     <IconCard 
                         icon={['fas', 'lightbulb']}
                         color={theme.colorGreen}
+                        size={'2.4em'}
                         message="Write down the reason"
                     />
                 </ContentBlockDuo>
@@ -69,6 +71,7 @@ const Index: React.SFC = () => {
                     <IconCard
                         icon={['fas', 'stream']}
                         color={theme.colorGreen}
+                        size={'2.4em'}
                         message="Just a list"
                     />
                 </ContentBlockDuo>
