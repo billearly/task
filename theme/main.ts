@@ -1,5 +1,6 @@
 export const theme = {
     borderRadius: '0.2rem',
+    borderRadiusLarge: '0.6rem',
     boxShadow: '0 0.06em 0.5em #cecece',
     colorBlue: '#add8e6',
     colorBlueLight: '#cee6ef',

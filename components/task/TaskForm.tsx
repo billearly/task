@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Mutation, MutationFn } from "react-apollo";
 import { GET_TODOS, WRITE_TODO } from '../../gql';
+import {
+    Form,
+    Input,
+    Select,
+    Button
+} from '../form';
 
 // So much cleanup
 // - add styles
@@ -77,34 +83,36 @@ export class TaskForm extends Component<{}, IState> {
             >
                 {(writeTask, { data }) => (
                     <div>
-                        <form
+                        <Form
                             onSubmit={e => { this.handleSubmit(e, writeTask) }}
                         >
-                            <label>Title</label>
-                            <input
+                            <Input
                                 name='title'
                                 value={this.state.title}
+                                placeholder='Title'
                                 onChange={this.handleChange}
                             />
 
-                            <select
+                            <Select
                                 name='bridge'
                                 value={this.state.bridge}
                                 onChange={this.handleChange}
                             >
                                 <option value="BECAUSE">Because</option>
                                 <option value="SOTHAT">So that</option>
-                            </select>
+                            </Select>
 
-                            <label>Reason</label>
-                            <input
+                            <Input
                                 name='reason'
                                 value={this.state.reason}
+                                placeholder='Reason'
                                 onChange={this.handleChange}
                             />
 
-                            <button type="submit">Write Task</button>
-                        </form>
+                            <Button type='submit'>
+                                Add Task
+                            </Button>
+                        </Form>
                     </div>
                 )}
             </Mutation>
