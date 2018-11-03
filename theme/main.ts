@@ -1,4 +1,5 @@
 export const theme = {
+    animationSpeed: '1s',
     borderRadius: '0.2rem',
     borderRadiusLarge: '0.6rem',
     boxShadow: '0 0.06em 0.5em #cecece',
@@ -8,6 +9,7 @@ export const theme = {
     colorGrayMedium: '#e4e4e4',
     colorGrayLight: '#f5f5f5',
     colorGreen: '#27a096',
+    colorWhiteTransparent: '#ffffff8c',
     maxWidth: '60rem',
     padding: '1.2rem',
     padding2x: '2.4rem',

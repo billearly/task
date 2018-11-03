@@ -5,4 +5,5 @@ export const Form = styled.form`
     flex-direction: column;
     margin: 0 auto;
     max-width: 15rem;
+    position: relative;
 `;

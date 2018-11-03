@@ -8,3 +8,4 @@ export { IconCard } from './IconCard';
 export { InfoBar } from './InfoBar';
 export { InfoBarLink } from './InfoBarLink';
 export { Paragraph } from './Paragraph';
+export { Spinner } from './Spinner';

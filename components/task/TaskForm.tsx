@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Mutation, MutationFn } from "react-apollo";
 import { GET_TODOS, WRITE_TODO } from '../../gql';
+import { FontAlignment } from '../../enum';
+import { Spinner } from '../generic';
 import {
     Form,
     Input,
     Select,
-    Button
+    Button,
+    ErrorMessage
 } from '../form';
 
 interface IState {
@@ -41,11 +44,13 @@ export class TaskForm extends Component<{}, IState> {
                 bridge: this.state.bridge,
                 reason: this.state.reason
             }
-        });
-
-        this.setState({
-            title: "",
-            reason: ""
+        }).then(() => {
+            this.setState({
+                title: "",
+                reason: ""
+            });
+        }).catch((e) => {
+            console.log(e);
         });
     }
 
@@ -82,37 +87,49 @@ export class TaskForm extends Component<{}, IState> {
                     });
                 }}
             >
-                {(writeTask, { data }) => (
-                    <Form
-                        onSubmit={e => { this.handleSubmit(e, writeTask) }}
-                    >
-                        <Input
-                            name='title'
-                            value={this.state.title}
-                            placeholder='Title'
-                            onChange={this.handleChange}
-                        />
-
-                        <Select
-                            name='bridge'
-                            value={this.state.bridge}
-                            onChange={this.handleChange}
+                {(writeTask, { loading, error }) => (
+                    <>
+                        <Form
+                            onSubmit={e => { this.handleSubmit(e, writeTask) }}
                         >
-                            <option value="BECAUSE">Because</option>
-                            <option value="SOTHAT">So that</option>
-                        </Select>
+                            {loading && 
+                                <Spinner />
+                            }
 
-                        <Input
-                            name='reason'
-                            value={this.state.reason}
-                            placeholder='Reason'
-                            onChange={this.handleChange}
-                        />
+                            <Input
+                                name='title'
+                                value={this.state.title}
+                                placeholder='Title'
+                                onChange={this.handleChange}
+                            />
 
-                        <Button type='submit'>
-                            Add Task
-                        </Button>
-                    </Form>
+                            <Select
+                                name='bridge'
+                                value={this.state.bridge}
+                                onChange={this.handleChange}
+                            >
+                                <option value="BECAUSE">Because</option>
+                                <option value="SOTHAT">So that</option>
+                            </Select>
+
+                            <Input
+                                name='reason'
+                                value={this.state.reason}
+                                placeholder='Reason'
+                                onChange={this.handleChange}
+                            />
+
+                            <Button type='submit'>
+                                Add Task
+                            </Button>
+
+                            {error && 
+                                <ErrorMessage alignment={FontAlignment.CENTER}>
+                                    Uh oh, something went wrong. Try again in a little bit
+                                </ErrorMessage>
+                            }
+                        </Form>
+                    </>
                 )}
             </Mutation>
         );
