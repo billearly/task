@@ -8,9 +8,6 @@ import {
     Button
 } from '../form';
 
-// So much cleanup
-// - add styles
-
 interface IState {
     title: string;
     bridge: string;
@@ -31,6 +28,27 @@ export class TaskForm extends Component<{}, IState> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    handleSubmit(e, mutationFn: MutationFn): void {
+        e.preventDefault();
+
+        if (!this.state.title || !this.state.reason) {
+            return;
+        }
+
+        mutationFn({ 
+            variables: { 
+                title: this.state.title,
+                bridge: this.state.bridge,
+                reason: this.state.reason
+            }
+        });
+
+        this.setState({
+            title: "",
+            reason: ""
+        });
+    }
+
     handleChange(e): void {
         e.preventDefault();
 
@@ -49,23 +67,6 @@ export class TaskForm extends Component<{}, IState> {
         }
     }
 
-    handleSubmit(e, mutationFn: MutationFn): void {
-        e.preventDefault();
-
-        mutationFn({ 
-            variables: { 
-                title: this.state.title,
-                bridge: this.state.bridge,
-                reason: this.state.reason
-            }
-        });
-
-        this.setState({
-            title: "",
-            reason: ""
-        });
-    }
-
     render(): JSX.Element {
         return (
             <Mutation
@@ -82,38 +83,36 @@ export class TaskForm extends Component<{}, IState> {
                 }}
             >
                 {(writeTask, { data }) => (
-                    <div>
-                        <Form
-                            onSubmit={e => { this.handleSubmit(e, writeTask) }}
+                    <Form
+                        onSubmit={e => { this.handleSubmit(e, writeTask) }}
+                    >
+                        <Input
+                            name='title'
+                            value={this.state.title}
+                            placeholder='Title'
+                            onChange={this.handleChange}
+                        />
+
+                        <Select
+                            name='bridge'
+                            value={this.state.bridge}
+                            onChange={this.handleChange}
                         >
-                            <Input
-                                name='title'
-                                value={this.state.title}
-                                placeholder='Title'
-                                onChange={this.handleChange}
-                            />
+                            <option value="BECAUSE">Because</option>
+                            <option value="SOTHAT">So that</option>
+                        </Select>
 
-                            <Select
-                                name='bridge'
-                                value={this.state.bridge}
-                                onChange={this.handleChange}
-                            >
-                                <option value="BECAUSE">Because</option>
-                                <option value="SOTHAT">So that</option>
-                            </Select>
+                        <Input
+                            name='reason'
+                            value={this.state.reason}
+                            placeholder='Reason'
+                            onChange={this.handleChange}
+                        />
 
-                            <Input
-                                name='reason'
-                                value={this.state.reason}
-                                placeholder='Reason'
-                                onChange={this.handleChange}
-                            />
-
-                            <Button type='submit'>
-                                Add Task
-                            </Button>
-                        </Form>
-                    </div>
+                        <Button type='submit'>
+                            Add Task
+                        </Button>
+                    </Form>
                 )}
             </Mutation>
         );
