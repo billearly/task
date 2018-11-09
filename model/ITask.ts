@@ -1,7 +1,7 @@
 import { Bridge } from '../enum';
 
 export interface ITask {
-    id: string;
+    _id: string;
     title: string;
     bridge: Bridge;
     reason: string;

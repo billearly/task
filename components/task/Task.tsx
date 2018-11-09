@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Checkbox } from './';
+import { Mutation, MutationFn } from 'react-apollo';
+import { DELETE_TODO, GET_TODOS } from '../../gql';
+import { DeleteButton } from './';
+import { Spinner } from '../generic';
 import { ITask } from '../../model';
 import { theme } from '../../theme/main';
 
@@ -8,17 +11,24 @@ interface IProps {
     taskInfo: ITask;
 }
 
-interface IState {
-    isComplete: boolean;
-}
-
 interface IWrapperProps {
     backgroundColor?: string;
     hoverColor?: string;
 }
 
+interface IStatusMessageProps {
+    color: string
+}
+
 const TaskText = styled.div`
-    max-width: 90%;
+    width: 90%;
+`;
+
+const TaskStatusMessage = styled.span`
+    bottom: ${theme.padding};
+    color: ${(p: IStatusMessageProps) => p.color};
+    position: absolute;
+    right: ${theme.padding};
 `;
 
 const TaskTitle = styled.p`
@@ -52,12 +62,13 @@ const TaskWrapper = styled.div`
     border-radius: ${theme.borderRadius};
     box-shadow: ${theme.boxShadow};
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
     margin-top: ${theme.padding};
     max-width: 30rem;
     padding: ${theme.padding};
+    position: relative;
     transition: background-color ${theme.transitionQuick};
     width: 100%;
 
@@ -67,11 +78,10 @@ const TaskWrapper = styled.div`
 
     &:hover {
         background-color: ${(p: IWrapperProps) => p.hoverColor || p.backgroundColor || 'white'};
-        cursor: pointer;
     }
 `;
 
-export class Task extends Component<IProps, IState> {
+export class Task extends Component<IProps> {
     constructor(props) {
         super(props);
 
@@ -81,12 +91,11 @@ export class Task extends Component<IProps, IState> {
 
         this.toggleCompletion = this.toggleCompletion.bind(this);
         this.textWithLeadingWhiteSpace = this.textWithLeadingWhiteSpace.bind(this);
+        this.handleDeletion = this.handleDeletion.bind(this);
     }
 
     toggleCompletion(): void {
-        this.setState({
-            isComplete: !this.state.isComplete
-        });
+        console.log('not implemented');
     }
 
     textWithLeadingWhiteSpace(text: string): string {
@@ -97,31 +106,74 @@ export class Task extends Component<IProps, IState> {
         }
     }
 
-    render() {
+    handleDeletion(e, mutationFn: MutationFn): void {
+        e.preventDefault();
+
+        mutationFn({
+            variables: {
+                _id: this.props.taskInfo._id
+            }
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
+
+    render(): JSX.Element {
         return (
-            <TaskWrapper
-                backgroundColor={this.state.isComplete ? theme.colorBlue : theme.colorGrayLight}
-                hoverColor={this.state.isComplete ? theme.colorBlue : 'white'}
-                onClick={this.toggleCompletion}
+            <Mutation
+                mutation={DELETE_TODO}
+                update={(cache, { data: { deleteTask } }) => {
+                    const { tasks } = cache.readQuery({
+                        query: GET_TODOS
+                    });
+
+                    for (var i = 0; i < tasks.length; i++) {
+                        if (tasks[i]._id === deleteTask._id) {
+                            tasks.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    cache.writeQuery({
+                        query: GET_TODOS,
+                        data: { tasks: tasks }
+                    });
+                }}
             >
-                <TaskText>
-                    <TaskTitle data-target='task-title'>
-                        {this.props.taskInfo.title}
-                    </TaskTitle>
+                {(deleteTask, { loading, error }) => (
+                    <TaskWrapper
+                        backgroundColor={theme.colorGrayLight}
+                        hoverColor='white'
+                        onClick={this.toggleCompletion}
+                    >
+                        {loading &&
+                            <Spinner />
+                        }
 
-                    <TaskReason data-target='task-reason'>
-                        <TaskBridge>
-                            {this.props.taskInfo.bridge}
-                        </TaskBridge>
+                        <TaskText>
+                            <TaskTitle data-target='task-title'>
+                                {this.props.taskInfo.title}
+                            </TaskTitle>
 
-                        {this.textWithLeadingWhiteSpace(this.props.taskInfo.reason)}
-                    </TaskReason>
-                </TaskText>
+                            <TaskReason data-target='task-reason'>
+                                <TaskBridge>
+                                    {this.props.taskInfo.bridge}
+                                </TaskBridge>
 
-                <Checkbox 
-                    isChecked={this.state.isComplete}
-                />
-            </TaskWrapper>
+                                {this.textWithLeadingWhiteSpace(this.props.taskInfo.reason)}
+                            </TaskReason>
+                        </TaskText>
+
+                        <DeleteButton handleClick={e => this.handleDeletion(e, deleteTask)}/>
+
+                        {error &&
+                            <TaskStatusMessage color='red'>
+                                Unable to delete task
+                            </TaskStatusMessage>
+                        }
+                    </TaskWrapper>
+                )}
+            </Mutation>
         );
     }
 }

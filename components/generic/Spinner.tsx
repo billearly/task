@@ -24,8 +24,8 @@ const SpinnerWrapper = styled.div`
 
 const StyledSpinner = styled.div`
     animation: ${rotate} ${theme.animationSpeed} linear infinite;
-    border: 0.5rem solid ${theme.colorGrayDark};
-    border-top-color: ${theme.colorGrayMedium};
+    border: 0.5rem solid ${theme.colorGrayMedium};
+    border-top-color: ${theme.colorGrayDark};
     border-radius: 50%;
     height: 4rem;
     width: 4rem;

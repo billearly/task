@@ -13,8 +13,9 @@ import {
     faSearch,
     faPencilAlt
 } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
-library.add(faStream, faLightbulb, faCircleNotch, faSearch, faPencilAlt);
+library.add(faStream, faLightbulb, faCircleNotch, faSearch, faPencilAlt, faTrashAlt);
 
 class MyApp extends App {
     static async getInitialProps ({ Component, router, ctx }) {
