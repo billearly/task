@@ -127,16 +127,13 @@ export class Task extends Component<IProps> {
                         query: GET_TODOS
                     });
 
-                    for (var i = 0; i < tasks.length; i++) {
-                        if (tasks[i]._id === deleteTask._id) {
-                            tasks.splice(i, 1);
-                            break;
-                        }
-                    }
+                    var updatedTasks = tasks.filter(task => {
+                        return task._id !== deleteTask._id
+                    });
 
                     cache.writeQuery({
                         query: GET_TODOS,
-                        data: { tasks: tasks }
+                        data: { tasks: updatedTasks }
                     });
                 }}
             >

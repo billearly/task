@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Query } from 'react-apollo'
+import { Query } from 'react-apollo';
 import { ITask } from '../../model';
 import { Task, TaskListMessage } from './';
 import { GET_TODOS, convertDTOToTask } from '../../gql';
