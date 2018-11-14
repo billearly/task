@@ -6,9 +6,14 @@ import { DeleteButton } from './';
 import { Spinner } from '../generic';
 import { ITask } from '../../model';
 import { theme } from '../../theme/main';
+import Snackbar from '@material-ui/core/Snackbar';
 
 interface IProps {
     taskInfo: ITask;
+}
+
+interface IState {
+    isErrorShown: boolean
 }
 
 interface IWrapperProps {
@@ -16,19 +21,8 @@ interface IWrapperProps {
     hoverColor?: string;
 }
 
-interface IStatusMessageProps {
-    color: string
-}
-
 const TaskText = styled.div`
     width: 90%;
-`;
-
-const TaskStatusMessage = styled.span`
-    bottom: ${theme.padding};
-    color: ${(p: IStatusMessageProps) => p.color};
-    position: absolute;
-    right: ${theme.padding};
 `;
 
 const TaskTitle = styled.p`
@@ -81,17 +75,18 @@ const TaskWrapper = styled.div`
     }
 `;
 
-export class Task extends Component<IProps> {
+export class Task extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
         this.state = {
-            isComplete: this.props.taskInfo.isComplete
+            isErrorShown: false
         };
 
         this.toggleCompletion = this.toggleCompletion.bind(this);
         this.textWithLeadingWhiteSpace = this.textWithLeadingWhiteSpace.bind(this);
         this.handleDeletion = this.handleDeletion.bind(this);
+        this.toggleErrorState = this.toggleErrorState.bind(this);
     }
 
     toggleCompletion(): void {
@@ -118,10 +113,17 @@ export class Task extends Component<IProps> {
         })
     }
 
+    toggleErrorState(newState: boolean): void {
+        this.setState({
+            isErrorShown: newState
+        });
+    }
+
     render(): JSX.Element {
         return (
             <Mutation
                 mutation={DELETE_TODO}
+                onError={() => this.toggleErrorState(true)}
                 update={(cache, { data: { deleteTask } }) => {
                     const { tasks } = cache.readQuery({
                         query: GET_TODOS
@@ -137,7 +139,7 @@ export class Task extends Component<IProps> {
                     });
                 }}
             >
-                {(deleteTask, { loading, error }) => (
+                {(deleteTask, { loading }) => (
                     <TaskWrapper
                         backgroundColor={theme.colorGrayLight}
                         hoverColor='white'
@@ -163,11 +165,16 @@ export class Task extends Component<IProps> {
 
                         <DeleteButton handleClick={e => this.handleDeletion(e, deleteTask)}/>
 
-                        {error &&
-                            <TaskStatusMessage color='red'>
-                                Unable to delete task
-                            </TaskStatusMessage>
-                        }
+                        <Snackbar
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left'
+                            }}
+                            autoHideDuration={5000}
+                            message='Oops, there was an error deleting the task. Try again later'
+                            onClose={() => this.toggleErrorState(false)}
+                            open={this.state.isErrorShown}
+                        />
                     </TaskWrapper>
                 )}
             </Mutation>
