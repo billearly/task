@@ -13,7 +13,7 @@
   "author": "Bill Early",
   "license": "ISC",
   "engines": {
-    "node": "8.11.2"
+    "node": "10.14.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.6",
