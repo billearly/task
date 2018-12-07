@@ -7,5 +7,6 @@ export { Icon } from './Icon';
 export { IconCard } from './IconCard';
 export { InfoBar } from './InfoBar';
 export { InfoBarLink } from './InfoBarLink';
+export { InfoBarLinkExternal } from './InfoBarLinkExternal';
 export { Paragraph } from './Paragraph';
 export { Spinner } from './Spinner';
